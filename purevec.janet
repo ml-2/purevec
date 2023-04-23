@@ -109,7 +109,7 @@
       (def divisor (math/pow PVEC-MAX (pvec/depth pvec)))
       (def current-n (math/floor (/ n divisor)))
       (def new-n (% n divisor))
-      (if (> current-n (pvec/len pvec))
+      (if (>= current-n (pvec/len pvec))
         nil
         (pvec/get (get pvec (inc current-n)) new-n)))))
 
