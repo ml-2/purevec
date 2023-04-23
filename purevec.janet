@@ -87,7 +87,7 @@
       (def divisor (math/pow PVEC-MAX (pvec/depth pvec)))
       (def current-n (math/floor (/ n divisor)))
       (def new-n (% n divisor))
-      (when (> current-n (pvec/len pvec))
+      (when (>= current-n (pvec/len pvec))
         (error "Index out of bounds"))
       [;(tuple/slice pvec 0 (inc current-n))
        (pvec/set- (get pvec (inc current-n)) new-n elem)
