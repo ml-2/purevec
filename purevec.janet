@@ -9,7 +9,8 @@
 # You should have received a copy of the CC0 Public Domain Dedication along with
 # this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
-(def PVEC-MAX 32)
+(def PVEC-POW 5)
+(def PVEC-MAX (blshift 1 PVEC-POW))
 
 (defn- pvec/len [pvec]
   (dec (length pvec)))
@@ -84,9 +85,9 @@
        elem
        ;(tuple/slice pvec (+ n 2))])
     (do
-      (def divisor (math/pow PVEC-MAX (pvec/depth pvec)))
-      (def current-n (math/floor (/ n divisor)))
-      (def new-n (% n divisor))
+      (def bits (* PVEC-POW (pvec/depth pvec)))
+      (def current-n (brshift n (* PVEC-POW (pvec/depth pvec))))
+      (def new-n (band n (dec (blshift 1 bits))))
       (when (>= current-n (pvec/len pvec))
         (error "Index out of bounds"))
       [;(tuple/slice pvec 0 (inc current-n))
@@ -106,9 +107,9 @@
   (if (= (pvec/depth pvec) 0)
     (get pvec (inc n))
     (do
-      (def divisor (math/pow PVEC-MAX (pvec/depth pvec)))
-      (def current-n (math/floor (/ n divisor)))
-      (def new-n (% n divisor))
+      (def bits (* PVEC-POW (pvec/depth pvec)))
+      (def current-n (brshift n (* PVEC-POW (pvec/depth pvec))))
+      (def new-n (band n (dec (blshift 1 bits))))
       (if (>= current-n (pvec/len pvec))
         nil
         (pvec/get (get pvec (inc current-n)) new-n)))))
@@ -119,7 +120,7 @@
   (if (= (pvec/depth pvec) 0)
     (pvec/len pvec)
     (do
-      (def power (math/pow PVEC-MAX (pvec/depth pvec)))
+      (def power (blshift 1 (* PVEC-POW (pvec/depth pvec))))
       (+ (* power (dec (pvec/len pvec))) (pvec/length (last pvec))))))
 
 (defn pvec/first
