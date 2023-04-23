@@ -1,12 +1,6 @@
-A persistent vector library implemented in pure Janet, released under the public domain.
+A persistent vector library implemented in pure Janet, released under the public domain. It is more of a curiosity than practical tool.
 
 ## Gotchas
-
-### Speed
-
-This library is not very optimized and is much slower than the persistent vectors you might find in, say, Clojure. To give some sense of this, on my computer, it takes about 4 seconds to append a million elements to an initially empty vector.
-
-It is O(log n) to append elements (using `pvec/conj`), remove elements from the end (using `pvec/pop`), to access elements at any index (using `pvec/get`), and to set an element at any index (using `pvec/set`).
 
 ### Silently Getting Invalid Results
 
@@ -15,6 +9,14 @@ The persistent vectors are implemented using a tree of tuples. This means that f
 The built-in iteration functions such as `each` and `next` will also work incorrectly. To properly iterate, use `pvec/iter` which returns a coroutine that iterates over the vector.
 
 There is also no way to recursively convert vectors to a pretty string because there is no way to tell the difference between vectors and tuples.
+
+### Speed
+
+This library is not very optimized and is much slower than the persistent vectors you might find in, say, Clojure. To give some sense of this, on my computer, it takes about 4 seconds to append a million elements to an initially empty vector.
+
+It is O(log n) to append elements (using `pvec/conj`), remove elements from the end (using `pvec/pop`), to access elements at any index (using `pvec/get`), and to set an element at any index (using `pvec/set`).
+
+These performance characteristics can be affected by the garbage collector, and so may be slower than stated on larger vectors. For example, when the garbage collector is disabled, it consistently takes 4 seconds on my computer to append 32^4 (~1_000_000) elements to a vector that already has over 32^4 elements (but less than 32^5 elements). When the garbage collector is enabled, however, it takes longer the longer the vector, taking 4 seconds for the first 32^4 elements, 7 for the next 32^4, then 9 seconds, then 11.
 
 ### Equality
 
