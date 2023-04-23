@@ -1,0 +1,26 @@
+(use /purevec)
+
+(def iters (+ (* 32 32 32 32) 10000))
+(var vec (pvec/new))
+(assert (pvec/empty? vec))
+(for i 0 iters
+  (def conjed (pvec/conj vec i))
+  (assert (= vec (pvec/pop conjed)) (string "popping at " i))
+  (if (or (< i 1024) (= (% i 10000) 0))
+    (for j 0 100
+      (def n (math/round (* (math/random) i)))
+      (assert (= (pvec/get conjed n) n) (string "get " i ":" n))
+      (def -set (pvec/set conjed n -1))
+      (assert (not= conjed -set) (string "not= -set conjed " i ":" n))
+      (assert (= (pvec/get -set n) -1) (string "get -set " i ":" n))
+      (assert (= (pvec/set -set n n) conjed)) (string "= reset conjed " i ":" n)))
+  (assert (= (pvec/length vec) i) (string "length at " i))
+  (assert (= (pvec/last conjed) i) (string "last at " i))
+  (assert (not (pvec/empty? conjed)) (string "empty? at " i))
+  (set vec conjed))
+
+(var i 0)
+(each elem (pvec/iter vec)
+  (assert (= elem i) (string "iter " i))
+  (++ i))
+(assert (= i iters) (string "iter nonempty"))
