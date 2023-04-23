@@ -163,7 +163,29 @@
     (prin ">"))
   (freeze buf))
 
+(defn pvec/toprettystring
+  `Converts a pvec to a string, pretty printing its elements. This does not work recursively.`
+  [pvec]
+  (def buf @"")
+  (with-dyns [*out* buf]
+    (prin "<pvec")
+    (each elem (pvec/iter pvec)
+      (prin " ")
+      (prinf "%p" elem))
+    (prin ">"))
+  (freeze buf))
+
+(defn pvec/prin
+  `Prints a persistent vector without a trailing newline. This does not work recursively.`
+  [pvec]
+  (prin (pvec/tostring pvec)))
+
+(defn pvec/print
+  `Prints a persistent vector. This does not work recursively.`
+  [pvec]
+  (print (pvec/tostring pvec)))
+
 (defn pvec/pp
   `Pretty-prints a persistent vector. This does not work recursively.`
   [pvec]
-  (pp (pvec/tostring pvec)))
+  (print (pvec/toprettystring pvec)))

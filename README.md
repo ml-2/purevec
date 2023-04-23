@@ -65,5 +65,11 @@ Every function in purevec starts with `pvec/`, so it is safe to `use` the librar
 
 (pvec/tostring pvec) :: Converts a pvec to a string. This does not work recursively.
 
+(pvec/toprettystring pvec) :: Converts a pvec to a string, pretty printing its elements. This does not work recursively.
+
+(pvec/prin pvec) :: Prints a persistent vector without a trailing newline. This does not work recursively.
+
+(pvec/print pvec) :: Prints a persistent vector. This does not work recursively.
+
 (pvec/pp pvec) :: Pretty-prints a persistent vector. This does not work recursively.
 ```
