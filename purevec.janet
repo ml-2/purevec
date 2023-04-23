@@ -9,8 +9,8 @@
 # You should have received a copy of the CC0 Public Domain Dedication along with
 # this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
-(def PVEC-POW 5)
-(def PVEC-MAX (blshift 1 PVEC-POW))
+(def- PVEC-POW 5)
+(def- PVEC-MAX (blshift 1 PVEC-POW))
 
 (defn- pvec/len [pvec]
   (dec (length pvec)))
